@@ -7,15 +7,16 @@ from DatasetImplementation.DatasetImplementation import DatasetImplementation
 from torch import nn
 
 learning_rate = 1e-3
-batch_size = 2
+batch_size = 64
+element_count = 1000
 
-DataPreparer(element_count=50, data_path='DataForDataset', data_output_path='DatasetImage')
+DataPreparer(element_count=element_count, data_path='DataForDataset', data_output_path='DatasetImage')
 
 data_learn = DatasetImplementation(data_path='DatasetImage', picture_transformation=torchvision.transforms.ToTensor())
 
 training_data_loader = DataLoader(data_learn, batch_size=batch_size, shuffle=True)
 
-DataPreparer(element_count=50, data_path='DataForDataset', data_output_path='DataTest')
+DataPreparer(element_count=element_count - 800, data_path='DataForDataset', data_output_path='DataTest')
 
 data_test = DatasetImplementation(data_path='DataTest', picture_transformation=torchvision.transforms.ToTensor())
 
@@ -61,9 +62,19 @@ def trainNeuralNetwork(model1, loss_fn1, optimizer1, data_loader):
         loss.backward()
         optimizer1.step()
 
-        if count % 100 == 0:
-            print(f'loss avg: {avg/(count + 1):>5f} [{len(X)*count}/{size}]')
+        if count % 2 == 0:
+            print(f'loss avg: {avg / 2 :>5f} [{len(X) * count}/{size}]')
             avg = 0
+
+
+def testNeuralNetwork(model1, data_loader, loss_fn1):
+    batch_s = data_loader.__len__() / len(data_loader)
+    with torch.no_grad():
+        avg = 0
+        for batch, (X, y) in enumerate(data_loader):
+            prediction = model1(X)
+            avg += loss_fn1(prediction, y).item()
+        print(f'Test error: \n avg loss: {avg / (batch_s * len(data_loader))}')
 
 
 model = FaceRecognitionNetwork()
@@ -71,5 +82,11 @@ model = FaceRecognitionNetwork()
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 loss_fn = torch.nn.L1Loss()
 
-for i in range(100):
+model.load_state_dict(torch.load('model_weights.pth'))
+
+for i in range(30):
+    print(f'Epos: {i + 1} \n ------------------------------------')
     trainNeuralNetwork(model1=model, loss_fn1=loss_fn, optimizer1=optimizer, data_loader=training_data_loader)
+    testNeuralNetwork(model1=model, loss_fn1=loss_fn, data_loader=test_data_loader)
+
+torch.save(model.state_dict(), 'model_weights.pth')
