@@ -18,7 +18,7 @@ class DatasetImplementation(Dataset):
     def __getitem__(self, idx):
         y = self.data_file.iloc[idx, 0:-1]
         x = self.data_file.iloc[idx, -1]
-        x = Image.open(self.data_path + '/' + x)
+        x = Image.open(self.data_path + '/' + x).convert('RGB')
 
         if self.picture_transformation:
             x = self.picture_transformation(x)

@@ -51,10 +51,12 @@ class DataPreparer:
             x_value = random.randint(0, background_width - width)
             y_value = random.randint(0, background_height - height)
 
-            background_image = Image.new(mode='RGB', size=photo_size, color=(0, 0, 0))
-            background_image.paste(im=img_buff,
-                                   box=(x_value,
-                                        y_value))
+            background_image = Image.new(mode='RGBA', size=photo_size, color=(random.randint(0, 255),
+                                                                              random.randint(0, 255),
+                                                                              random.randint(0, 255)))
+            background_image.paste(img_buff,
+                                   (x_value,
+                                    y_value), img_buff)
             path_for_csv = file_uuid + '.png'
             background_image.save(fp=data_output_path + '/' + path_for_csv)
 
