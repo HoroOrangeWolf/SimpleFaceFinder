@@ -23,6 +23,7 @@ def trainModel(model, data_loader, optimizer, loss_fn):
     batch_size = int(size / len(data_loader))
     for batch, (X, y) in enumerate(data_loader):
         prediction = model(X)
+        print(X.size())
         print(prediction.size())
         print(y.size())
         loss = loss_fn(prediction, y)

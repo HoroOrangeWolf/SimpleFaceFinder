@@ -7,7 +7,7 @@ from NeuralData.DatasetImplementation import DatasetImplementation
 from NeuralNetwork.NeuralNetwork import trainModel
 from NeuralNetwork.NeuralNetwork import testModel
 
-batch_size = 16
+batch_size = 1
 learning_rate = 1e-3
 epochs = 10
 
@@ -17,7 +17,7 @@ DataPreparer(element_count=100, data_path='DataForDataset', data_output_path='Te
 test_data = DatasetImplementation(data_path='TestData',
                                   picture_transformation=torchvision.transforms.ToTensor())
 
-test_data_loader = DataLoader(dataset=test_data,
+test_data_loader = DataLoader(test_data,
                               batch_size=batch_size,
                               shuffle=True)
 
@@ -27,7 +27,7 @@ DataPreparer(element_count=800, data_path='DataForDataset', data_output_path='Le
 test_data = DatasetImplementation(data_path='LearningData',
                                   picture_transformation=torchvision.transforms.ToTensor())
 
-learn_data_loader = DataLoader(dataset=test_data,
+learn_data_loader = DataLoader(test_data,
                                batch_size=batch_size,
                                shuffle=True)
 
