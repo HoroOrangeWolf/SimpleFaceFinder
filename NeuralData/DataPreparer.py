@@ -1,6 +1,6 @@
 import glob
-from os import path
 import os
+from os import path
 from PIL import Image
 import random
 import uuid
@@ -16,16 +16,11 @@ class DataPreparer:
         self.leave_if_exist = True
         self.photo_size = photo_size
 
-        if not path.isdir(data_output_path):
-            os.mkdir(data_output_path)
-
         if leave_if_exist and path.isfile(data_output_path + '/data.csv'):
             return
 
-        if not leave_if_exist:
-            os.remove(data_output_path + '/data.csv')
-            for data_file in glob.glob(data_path + '/*.png'):
-                os.remove(data_file)
+        if not path.isdir(data_output_path):
+            os.mkdir(data_output_path)
 
         images = []
 
@@ -60,10 +55,12 @@ class DataPreparer:
             x_value = random.randint(0, background_width - width)
             y_value = random.randint(0, background_height - height)
 
-            background_image = Image.new(mode='RGB', size=photo_size, color=(0, 0, 0))
-            background_image.paste(im=img_buff,
-                                   box=(x_value,
-                                        y_value))
+            background_image = Image.new(mode='RGBA', size=photo_size, color=(random.randint(0, 255),
+                                                                              random.randint(0, 255),
+                                                                              random.randint(0, 255)))
+            background_image.paste(img_buff,
+                                   (x_value,
+                                    y_value), img_buff)
             path_for_csv = file_uuid + '.png'
             background_image.save(fp=data_output_path + '/' + path_for_csv)
 
