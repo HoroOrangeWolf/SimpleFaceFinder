@@ -8,7 +8,7 @@ import pandas as pd
 
 
 class DataPreparer:
-    def __init__(self, element_count, data_path, data_output_path, leave_if_exist=True, photo_size=(1028, 1028)):
+    def __init__(self, element_count, data_path, data_output_path, leave_if_exist=True, photo_size=(512, 512)):
 
         self.element_count = element_count
         self.data_path = data_path

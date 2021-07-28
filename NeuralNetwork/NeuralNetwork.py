@@ -10,7 +10,7 @@ class FaceRecognitionNeuralNetwork(nn.Module):
             MultiBranchNetwork(in_channels=1),
             nn.Flatten(),
             nn.ReLU(),
-            nn.Linear(in_features=786432, out_features=4)
+            nn.Linear(in_features=2359296, out_features=4)
         )
 
     def forward(self, x):
@@ -23,9 +23,6 @@ def trainModel(model, data_loader, optimizer, loss_fn):
     batch_size = int(size / len(data_loader))
     for batch, (X, y) in enumerate(data_loader):
         prediction = model(X)
-        print(X.size())
-        print(prediction.size())
-        print(y.size())
         loss = loss_fn(prediction, y)
 
         optimizer.zero_grad()
@@ -33,7 +30,7 @@ def trainModel(model, data_loader, optimizer, loss_fn):
         optimizer.step()
 
         avg += loss.item()
-
+        print('t')
         if batch != 0 and batch % 100 == 0:
             print(f'Avg loss: {avg / 100:>5f}  [{batch * batch_size}/{size}')
 
@@ -78,4 +75,4 @@ class MultiBranchNetwork(nn.Module):
 
         out_put = [x_3, x_2, x_1]
 
-        return torch.cat(out_put, 0)
+        return torch.cat(out_put, 1)
