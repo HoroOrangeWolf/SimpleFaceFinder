@@ -12,6 +12,8 @@ learning_rate = 1e-3
 epochs = 10
 
 # Creating test data
+print('Preparing test dataset')
+
 DataPreparer(element_count=100, data_path='DataForDataset', data_output_path='TestData')
 
 test_data = DatasetImplementation(data_path='TestData',
@@ -22,6 +24,8 @@ test_data_loader = DataLoader(test_data,
                               shuffle=True)
 
 # Creating learning data
+print('Preparing learning dataset')
+
 DataPreparer(element_count=800, data_path='DataForDataset', data_output_path='LearningData')
 
 test_data = DatasetImplementation(data_path='LearningData',

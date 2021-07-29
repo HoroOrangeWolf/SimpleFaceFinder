@@ -43,7 +43,7 @@ class DataPreparer:
             img_buff = images[value]
             width, height = img_buff.size
 
-            number = random.randint(400, 600)
+            number = random.randint(100, 364)
             width += number - random.randint(0, 20)
             height += number
 

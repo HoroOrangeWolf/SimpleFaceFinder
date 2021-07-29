@@ -55,7 +55,7 @@ class MultiBranchNetwork(nn.Module):
         self.branch_1_5x5 = nn.Sequential(
             nn.Conv2d(in_channels=in_channels, out_channels=9, kernel_size=(1, 1), stride=(1, 1)),
             nn.Conv2d(in_channels=9, out_channels=9, kernel_size=(3, 3), stride=(1, 1)),
-            nn.Conv2d(in_channels=9, out_channels=12, kernel_size=(5, 5), stride=(1, 1), padding=(2,2)),
+            nn.Conv2d(in_channels=9, out_channels=12, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2)),
             nn.MaxPool2d(kernel_size=(4, 4), stride=(4, 4)))
 
         self.branch_2_5x5 = nn.Sequential(
